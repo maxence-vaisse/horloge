@@ -1,14 +1,15 @@
+# Librairie importer
 import time
 import keyboard
 
-heure_actuelle = (13, 10, 25)
-heure_reveil = (13, 10, 28)
+horloge = (13, 10, 25)
+reveil = (13, 10, 28)
 
-def alarme(heure_reveil, heure_actuelle):
-    if heure_actuelle == heure_reveil:
+def alarme(reveil, horloge):
+    if horloge == reveil:
         print("C'est l'heure de se réveiller !")
 
-def format_12h(h, m, s):
+def format_heure(h, m, s):
     if h < 12:
         am_pm = "AM"
     else:
@@ -18,7 +19,6 @@ def format_12h(h, m, s):
     if h == 0:
         h = 12
 
-    # heure formatée
     return f"{h:02d}:{m:02d}:{s:02d} {am_pm}"
 
 def espace(keyboard_event):
@@ -26,7 +26,7 @@ def espace(keyboard_event):
     if keyboard_event.event_type == keyboard.KEY_DOWN:
         en_pause = not en_pause
 
-def afficher_heure(heure_actuelle):
+def affichage_heure(horloge):
     global en_pause
     en_pause = False
     keyboard.on_press_key('space', espace)
@@ -34,17 +34,17 @@ def afficher_heure(heure_actuelle):
     format_choisi = input("Choisissez le format d'heure (12 ou 24) : ")
     print("Pour mettre l'horloge en pause veuillez appuyez sur la barre espace.")
 
-    h, m, s = heure_actuelle
+    h, m, s = horloge
     while True:
         try:
             if en_pause:
                 time.sleep(0.1)
                 continue
 
-            alarme(heure_reveil, (h, m, s))
+            alarme(reveil, (h, m, s))
 
             if format_choisi == "12":
-                heure = format_12h(h, m, s)
+                heure = format_heure(h, m, s)
             elif format_choisi == "24":
                 heure = f"{h:02d}:{m:02d}:{s:02d}"
             else: 
@@ -67,4 +67,4 @@ def afficher_heure(heure_actuelle):
         except KeyboardInterrupt:
             break       
 
-afficher_heure(heure_actuelle)
+affichage_heure(horloge)
